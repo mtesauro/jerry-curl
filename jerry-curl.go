@@ -1,7 +1,7 @@
 /*
 
  Program  written by Matt Tesauro <matt.tesauro@owasp.org>
- as part of the OWASP WTE project
+ as part of the OWASP WTE and OWASP OpenStack Security projects
 
  This file, jerry-curl, is a wrapper for the curl command allowing
  default arguements to be easly added when invoking curl.  This is
@@ -81,13 +81,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Printf("final command is %v\n\n", finalCmd)
-
 	// Build the resulting curl command to run
-	//cmd := exec.Command(curl, finalCmd...)
 	cmd := exec.Command("curl", finalCmd...)
-
-	fmt.Printf("final command is %v\n\n", finalCmd)
 
 	// Catch stdout
 	stdout, err := cmd.StdoutPipe()
@@ -114,15 +109,13 @@ func main() {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(errorReader)
 
-	fmt.Printf("Args in cmd is %v\n", cmd.Args)
-
 	// Wait for curl to complete
 	cmd.Wait()
 
-	fmt.Printf("curl exit = %s|\n\n", cmd.ProcessState.String())
-
 	// Check for a curl error
 	if cmd.ProcessState.String() != "exit status 0" {
+		// ToDo: Filter out the tranfer progress bar stuff
+		// annoying but not critical to filter out
 		fmt.Println("A curl error occured:\n")
 		fmt.Printf("\t%s\n", buf.String())
 	}
@@ -145,11 +138,10 @@ func createConfig() {
 	home = os.Getenv("HOME")
 	if home == "" {
 		fmt.Println("The environmental varaible HOME needs to be set to your home directory")
-		//Todo - allow a command-line to set home?
 		os.Exit(0)
 	}
 
-	// TODO - simplify this to a single path.join with all three strings as args
+	// ToDo - simplify this to a single path.join with all three strings as args
 	config := path.Join(home, configDir)
 	configFile := path.Join(config, configFile)
 
@@ -170,7 +162,7 @@ func createConfig() {
 	}
 
 	// Create a default config file
-	defaultConfig := `# Some example of items to put in this config file
+	defaultConfig := `# Some examples of items to put in this config file
 # 
 # For repeated requests to the same URL:
 # BASE=http://www.example.com
@@ -178,6 +170,9 @@ func createConfig() {
 #           All others are simply one command line option per line.
 #           Make sure the line starts with "BASE="
 # 
+# NOTE: DO NOT QUOTE ARGUMENTS TO COMMAND LINE OPTIONS
+# jerry-curl will automagically quote them for you
+#
 # Proxy curl commands:
 # --proxy 127.0.0.1:8080 
 # 
@@ -188,13 +183,13 @@ func createConfig() {
 # -include
 # 
 # Set an Auth header
-# -H "X-Auth-Token: 55555555-5555-5555-5555-555555555555"
+# -H X-Auth-Token: 55555555-5555-5555-5555-555555555555
 #
 # Set accepts header 
-# -H "Accept: application/json"
+# -H Accept: application/json
 # 
 # Set content-type header
-# -H "Content-Type: application/json"
+# -H Content-Type: application/json
 # `
 
 	// Write a default config
@@ -369,6 +364,7 @@ func printHelp() {
 	fmt.Println("")
 	fmt.Println(" If no config file exists, one will be created with commented examples in directory named ")
 	fmt.Println(" .jerry-curl in your home directory when jerry-curl is run for the first time.")
+	fmt.Println(" For user ltorvalds, it would be /home/ltorvalds/.jerry-curl/jerry-curl.config")
 	fmt.Println("")
 	os.Exit(0)
 }
@@ -386,7 +382,6 @@ func readConfig(newConfig string) (string, []string) {
 		home = os.Getenv("HOME")
 		if home == "" {
 			fmt.Println("The environmental varaible HOME needs to be set to your home directory")
-			//Todo - allow a command-line to set home?
 			os.Exit(0)
 		}
 		config = path.Join(home, configDir, configFile)
@@ -406,12 +401,21 @@ func readConfig(newConfig string) (string, []string) {
 	for err == nil {
 		// Handle lines that are not comments
 		if strings.Index(line, "#") != 0 {
+			line = strings.Trim(line, " ")
 			n := strings.Index(line, "BASE=")
 			// Set base or else its an extra arg for curl
 			if n == 0 {
 				base = strings.TrimRight(line[n+5:], "\n")
 			} else {
-				extras = append(extras, strings.TrimRight(line, "\n"))
+				p := strings.Index(line, " ")
+				if p == -1 {
+					extras = append(extras, strings.TrimRight(line, "\n"))
+				} else {
+					quoted := strings.SplitAfterN(strings.TrimRight(line, "\n"), " ", 2)
+					extras = append(extras, strings.Trim(quoted[0], " "))
+					extras = append(extras, strings.Trim(quoted[1], " "))
+				}
+
 			}
 		}
 
@@ -455,9 +459,7 @@ func genCurlCmd(jerry map[int]string, curl []string, base string) ([]string, boo
 
 	}
 
-	url := base + path
-
-	fmt.Printf("URL in method =%s|\n\n", url)
+	url := strings.Trim(base, " ") + strings.Trim(path, " ")
 
 	return append(sCurl, url), show
 }
