@@ -25,14 +25,16 @@ jerry-curl works by calling curl like the below:
   curl [config options] [BASE][URLPATH] [command-line arguments]
 ----
 
-jerry-curl command-line options: +
-   -c, --config FILE         Select a different config file from the default +
-                             which is $HOME/.jerry-curl/jerry-curl.config +
-                               Example: jerry-curl --config=./my-custom-config +
-   -s, --show                Show the curl command - DO NOT EXECUTE IT +
-   -u, --url-path URLPATH    Set a path to append to the base URL +
-                               Example: jerry-curl --url-path=/app/path/here +
-   -h, --help                help, aka this message +
+jerry-curl command-line options: 
+----
+   -c, --config FILE         Select a different config file from the default 
+                             which is $HOME/.jerry-curl/jerry-curl.config 
+                               Example: jerry-curl --config=./my-custom-config 
+   -s, --show                Show the curl command - DO NOT EXECUTE IT 
+   -u, --url-path URLPATH    Set a path to append to the base URL 
+                               Example: jerry-curl --url-path=/app/path/here 
+   -h, --help                help, aka this message 
+----
 
 [NOTE]
 =================
@@ -43,25 +45,37 @@ Options --config, -c, -s -u are used by both jerry-curl and curl.  jerry-curl wi
 
 Assuming you have the following in your configuration file: 
 ----
-    BASE=https://example.com/api/v1 +
-    --proxy 127.0.0.1:8080 +
-    -include +
-    -H X-Auth-Token: 55555555-5555-5555-5555-555555555555 +
-    -H Accept: application/json +
-    -H Content-Type: application/json +
+    BASE=https://example.com/api/v1 
+    --proxy 127.0.0.1:8080 
+    -include 
+    -H X-Auth-Token: 55555555-5555-5555-5555-555555555555 
+    -H Accept: application/json 
+    -H Content-Type: application/json 
 ----
 
+THe following jerry-curl command:
+
+----
 $ jerry-curl --url-path /uppercase/word -X GET
+----
 
 would result in the following curl command:
 
+----
 $ /usr/bin/curl --proxy 127.0.0.1:8080 -include -H "X-Auth-Token: 55555555-5555-5555-5555-555555555555" -H "Accept: application/json" -H "Content-Type: application/json" -X GET https://example.com/uppercase/word
+----
 
+also 
+
+----
 $ jerry-curl --url-path /uppercase/word -X POST -d '{"word" : "example"}'
+----
 
 would result in the following curl command:
 
+----
 $ /usr/bin/curl --proxy 127.0.0.1:8080 -include -H X-Auth-Token: 55555555-5555-5555-5555-555555555555 -H Accept: application/json -H Content-Type: application/json -X POST -d '{"key" : "value"}' https://example.com/uppercase/word
+----
 
 === License ===
 
