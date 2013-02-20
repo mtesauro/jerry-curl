@@ -14,38 +14,40 @@ Optionally, you can use a jerry-curl command-line option to point to a different
 
 [NOTE]
 =================
-DO NOT QUOTE ARGUMENTS TO COMMAND LINE OPTIONS IN THE CONFIGURATION FILE!
+DO NOT QUOTE ARGUMENTS TO COMMAND LINE OPTIONS IN THE CONFIGURATION FILE!+
  jerry-curl will automagically quote them for you - the provided examples do not include quotes.
 =================
 
 === Using jerry-curl ===
 
-jerry-curl works by calling curl like the below:
+jerry-curl works by calling curl like the below:+
+----
   curl [config options] [BASE][URLPATH] [command-line arguments]
+----
 
-jerry-curl command-line options:
-   -c, --config FILE         Select a different config file from the default
-                             which is $HOME/.jerry-curl/jerry-curl.config
-                               Example: jerry-curl --config=./my-custom-config
-   -s, --show                Show the curl command - DO NOT EXECUTE IT
-   -u, --url-path URLPATH    Set a path to append to the base URL
-                               Example: jerry-curl --url-path=/app/path/here
-   -h, --help                help, aka this message
+jerry-curl command-line options:+
+   -c, --config FILE         Select a different config file from the default+
+                             which is $HOME/.jerry-curl/jerry-curl.config+
+                               Example: jerry-curl --config=./my-custom-config+
+   -s, --show                Show the curl command - DO NOT EXECUTE IT+
+   -u, --url-path URLPATH    Set a path to append to the base URL+
+                               Example: jerry-curl --url-path=/app/path/here+
+   -h, --help                help, aka this message+
 
 [NOTE]
 =================
-Note: Options --config, -c, -s -u are used by both jerry-curl and curl.  If you want those sent to curl, please use their alternate forms.  Using --show can help diagnose if jerry-curl or curl is receiving a command-line option
+Note: Options --config, -c, -s -u are used by both jerry-curl and curl.  jerry-curl will detect when it is unclear if options are for curl or jerry-curl and provide info on the curl alternative options.  If you want those options sent to curl, please use the alternate forms.  Using --show can help diagnose if jerry-curl or curl is receiving a command-line option
 =================
 
 === Examples ===
 
-Assuming you have the following in your configuration file:
-    BASE=https://example.com/api/v1
-    --proxy 127.0.0.1:8080 
-    -include
-    -H X-Auth-Token: 55555555-5555-5555-5555-555555555555
-    -H Accept: application/json
-    -H Content-Type: application/json
+Assuming you have the following in your configuration file:+
+    BASE=https://example.com/api/v1+
+    --proxy 127.0.0.1:8080 +
+    -include +
+    -H X-Auth-Token: 55555555-5555-5555-5555-555555555555 +
+    -H Accept: application/json +
+    -H Content-Type: application/json +
 
 $ jerry-curl --url-path /uppercase/word -X GET
 
@@ -61,4 +63,4 @@ $ /usr/bin/curl --proxy 127.0.0.1:8080 -include -H X-Auth-Token: 55555555-5555-5
 
 === License ===
 
-jerry-curl is licensed under the GPL v3 and includes the "or later" clause.  A reference to the license is in the source for jerry-curl, that is jerry-curl.go and the full license is in the file LICENSE in the root of the source code directory.
+jerry-curl is licensed under the GPL v3 and includes the "or later" clause.  A reference to the license is in the source for jerry-curl, that is, jerry-curl.go and the full license is in the file LICENSE in the root of the source code directory.
