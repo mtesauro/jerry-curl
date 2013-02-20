@@ -342,6 +342,8 @@ func printHelp() {
 	fmt.Println("Usage: jerry-curl [-h|--help]")
 	fmt.Println("   or: jerry-curl [jerry-curl options] [optional arguments for curl]")
 	fmt.Println("")
+	fmt.Println(" jerry-curl version 1.0")
+	fmt.Println("")
 	fmt.Println(" jerry-curl is a wrapper for the curl command which adds ")
 	fmt.Println(" options from a configuration file and the command line")
 	fmt.Println(" allowing for short repeated curl calls.")
@@ -442,8 +444,8 @@ func genCurlCmd(jerry map[int]string, curl []string, base string) ([]string, boo
 			show = true
 		}
 		if (strings.Index(arg, "--url-path") == 0) || (strings.Index(arg, "-u")) == 0 {
-			path = strings.TrimLeft(arg, "--url-path ")
-			path = strings.TrimLeft(arg, "-u ")
+			path = strings.Replace(arg, "--url-path ", "", 1)
+			path = strings.TrimLeft(path, "-u ")
 		}
 	}
 
