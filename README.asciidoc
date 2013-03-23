@@ -10,6 +10,8 @@ http://appseclive.org/apt/jerry-curl/
 
 Inside of the distrib directory, there are directories for 32 or 64 bit and OS, drill down to the one that you need.  Linux, OS X, FreeBSD and Windows binaries available for 32 and 64 bit. 
 
+If you clone the repository, you will also have the same distrib directory with pre-compiled binaries for jerry-curl.  I provided the direct download for user's convenience as GitHub doesn't prompt for downloads of binary files without file extensions.
+
 === About jerry-curl ===
 
 jerry-curl is a wrapper for the curl command which adds options from a configuration file and the command line allowing for short repeated curl calls.
