@@ -76,7 +76,7 @@ would result in the following curl command:
 ----
 $ /usr/bin/curl --proxy 127.0.0.1:8080 -include -H "X-Auth-Token: 55555555-5555-5555-5555-555555555555"
  -H "Accept: application/json" -H "Content-Type: application/json" 
--X GET https://example.com/uppercase/word
+-X GET https://example.com/api/v1/uppercase/word
 ----
 
 also 
@@ -90,7 +90,7 @@ would result in the following curl command:
 ----
 $ /usr/bin/curl --proxy 127.0.0.1:8080 -include -H "X-Auth-Token: 55555555-5555-5555-5555-555555555555" 
 -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"key" : "value"}' 
-https://example.com/uppercase/word
+https://example.com/api/v1/uppercase/word
 ----
 
 === License ===
