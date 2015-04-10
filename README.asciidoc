@@ -1,6 +1,6 @@
 == jerry-curl ==
 
-=== Downloading ===
+=== Downloading the binary ===
 
 If you'd like to just grab a pre-compiled binary of jerry-curl, you can grab them here:
 
@@ -11,6 +11,13 @@ http://appseclive.org/apt/jerry-curl/
 Inside of the distrib directory, there are directories for 32 or 64 bit and OS, drill down to the one that you need.  Linux, OS X, FreeBSD and Windows binaries available for 32 and 64 bit. 
 
 If you clone the repository, you will also have the same distrib directory with pre-compiled binaries for jerry-curl.  I provided the direct download for user's convenience as GitHub doesn't prompt for downloads of binary files without file extensions.
+
+=== For Go Devs ===
+You can also download and install `jerry-curl` using `go get`.
+
+```
+$ go get github.com/mtesauro/jerry-curl
+```
 
 === About jerry-curl ===
 
