@@ -6,7 +6,7 @@
  This file, jerry-curl, is a wrapper for the curl command allowing
  default arguements to be easly added when invoking curl.  This is
  partularly useful when headers need to be added to every request
- such as HTTP basic auth or talking to REST APIs. 
+ such as HTTP basic auth or talking to REST APIs.
 
  jerry-curl is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -277,6 +277,11 @@ func parseArgs(args []string) (map[int]string, []string) {
 	// skip set to true to skip adding the os.Args[0] from being processed
 	skip := true
 	var next string
+
+	// If jerry-curl is called witn no arguments then print the help menu and exit
+	if len(args) == 1 {
+		printHelp()
+	}
 
 	// iterate through args sent and place jerry-curl args into one map
 	// all other args are passed through to curl via curlArgs
