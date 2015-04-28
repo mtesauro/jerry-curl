@@ -42,6 +42,7 @@ import (
 var configDir string = ".jerry-curl"
 var configFile string = "jerry-curl.config"
 var home string
+var version string = "1.1"
 
 func main() {
 	// Check if curl is installed
@@ -347,7 +348,7 @@ func printHelp() {
 	fmt.Println("Usage: jerry-curl [-h|--help]")
 	fmt.Println("   or: jerry-curl [jerry-curl options] [optional arguments for curl]")
 	fmt.Println("")
-	fmt.Println(" jerry-curl version 1.0")
+	fmt.Printf(" jerry-curl version %s\n", version)
 	fmt.Println("")
 	fmt.Println(" jerry-curl is a wrapper for the curl command which adds ")
 	fmt.Println(" options from a configuration file and the command line")
