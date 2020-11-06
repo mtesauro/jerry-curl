@@ -1,5 +1,7 @@
 == jerry-curl ==
 
+image::https://raw.githubusercontent.com/mtesauro/jerry-curl/master/docs/images/jerry-curl_logo.png[jerry-curl logo]
+
 === Downloading the binary ===
 
 If you'd like to just grab a pre-compiled binary of jerry-curl, you can grab them here:
@@ -21,7 +23,7 @@ $ go get github.com/mtesauro/jerry-curl
 
 === About jerry-curl ===
 
-jerry-curl is a wrapper for the curl command which adds options from a configuration file and the command line allowing for short repeated curl calls.
+jerry-curl is a wrapper for the curl command which adds options from a configuration file and the command line allowing for short repeated curl calls. It way my way of "jerry-rigging" [1] curl to make it more pleasant when making repeated curl calls.
 
 Basically, it helps put your long curl commands on a diet.
 
@@ -36,6 +38,8 @@ Optionally, you can use a jerry-curl command-line option to point to a different
 DO NOT QUOTE ARGUMENTS TO COMMAND LINE OPTIONS IN THE CONFIGURATION FILE! +
  jerry-curl will automagically quote them for you - the provided examples do not include quotes.
 =================
+
+[1] https://www.grammarphobia.com/blog/2019/12/jerry-rigged.html
 
 === Using jerry-curl ===
 
